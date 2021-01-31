@@ -1,0 +1,21 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto";
+}
+
+.center {
+  text-align: center;
+  margin-top: 10%;
+}
+
+.error {
+  color: red;
+}
+
+.btns,
+#name {
+  text-decoration: none;
+  color: aliceblue;
+}
