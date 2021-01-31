@@ -8,7 +8,26 @@ import { StudentDetails } from "./components/StudentDetails/StudentDetails";
 import { About } from "./components/About/About";
 import { NotAuthorized } from "./components/NotAuthorized/NotAuthorized";
 import { Error404 } from "./components/Error404/Error404";
-import { makeStyles, AppBar, Toolbar, Button } from "@material-ui/core";
+
+import {
+  makeStyles,
+  AppBar,
+  Toolbar,
+  Button,
+  Grid,
+  Typography,
+} from "@material-ui/core";
+
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
+
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+
 import { useState, useEffect } from "react";
 import SignUp from "./components/SignUp/SignUp";
 
@@ -73,7 +92,7 @@ function App() {
       return false;
     }
   };
-//useState is a Hook that allows you to have state variables in functional components. You pass the initial state to this function and it returns a variable with the current state value (not necessarily the initial state) and another function to update this value. ... Declaring state in React.
+  //useState is a Hook that allows you to have state variables in functional components. You pass the initial state to this function and it returns a variable with the current state value (not necessarily the initial state) and another function to update this value. ... Declaring state in React.
   const [studentProfileData, setStudentProfileData] = useState({
     firstName: "",
     lastName: "",
@@ -180,55 +199,99 @@ function App() {
       <div className="App">
         <AppBar position="static">
           <Toolbar>
-            <Button color="inherit">
-              <Link className="btns" to="/">
-                HOME
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className="btns" to="/about">
-                ABOUT
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className="btns" to="/students">
-                Students
-              </Link>
-            </Button>
-            {!logged ? (
-              <>
+            <Grid container justify="space-between">
+              <Grid item>
                 <Button color="inherit">
-                  <Link className="btns" to="/signup">
-                    Sign Up
+                  <Link className="btns" to="/">
+                    HOME
                   </Link>
                 </Button>
                 <Button color="inherit">
-                  <Link className="btns" to="/signin">
-                    Sign In
+                  <Link className="btns" to="/about">
+                    ABOUT
                   </Link>
                 </Button>
-              </>
-            ) : (
-              <Button
-                color="inherit"
-                onClick={() => {
-                  setLogged(false);
-                  setName("");
-                  localStorage.removeItem("logged");
-                  localStorage.removeItem("loggedAccount");
-                }}
-              >
-                Log out
-              </Button>
-            )}
-            {logged ? (
-              <Button id="name" disabled>
-                {name}'s account
-              </Button>
-            ) : null}
+                <Button color="inherit">
+                  <Link className="btns" to="/students">
+                    Students
+                  </Link>
+                </Button>
+                {logged ? (
+                  <Button id="name" disabled>
+                    {name}'s account
+                  </Button>
+                ) : null}
+              </Grid>
+              <Grid item>
+                <Typography variant="h5">School App</Typography>
+              </Grid>
+              <Grid item>
+                {!logged ? (
+                  <>
+                    <Button color="inherit">
+                      <Link className="btns" to="/signup">
+                        Sign Up
+                      </Link>
+                    </Button>
+                    <Button color="inherit">
+                      <Link className="btns" to="/signin">
+                        Sign In
+                      </Link>
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    color="inherit"
+                    onClick={() => {
+                      setLogged(false);
+                      setName("");
+                      localStorage.removeItem("logged");
+                      localStorage.removeItem("loggedAccount");
+                    }}
+                  >
+                    Log out
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
           </Toolbar>
         </AppBar>
-
+        {false && (
+          <Drawer
+            className={classes.drawer}
+            variant="permanent"
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            anchor="left"
+          >
+            <div className={classes.toolbar} />
+            <Divider />
+            <List>
+              {["Inbox", "Starred", "Send email", "Drafts"].map(
+                (text, index) => (
+                  <ListItem button key={text}>
+                    <ListItemIcon>
+                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItem>
+                )
+              )}
+            </List>
+            <Divider />
+            <List>
+              {["All mail", "Trash", "Spam"].map((text, index) => (
+                <ListItem button key={text}>
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
+            </List>
+          </Drawer>
+        )}
         <Switch>
           <Route exact path="/">
             <Home />
