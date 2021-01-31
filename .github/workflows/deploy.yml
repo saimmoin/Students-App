@@ -1,0 +1,26 @@
+name: Deploy React on Surge
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 12
+
+      - name: Install Packages
+        run: npm install
+
+      - name: Build app
+        run: npm run build
+
+      - name: Install Surge
+        run: npm install -g surge
+
+      - name: Run surge
+        run: surge ./build saim-students-app.surge.sh --token ${{ secrets.SURGE_TOKEN }}
